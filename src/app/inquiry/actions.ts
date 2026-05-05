@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createInquiry } from "@/lib/inquiries-store";
+import { createInquiry, findActiveOverlap } from "@/lib/inquiries-store";
 import { getRoomBySlug } from "@/lib/rooms-store";
 
 function parseDate(value: FormDataEntryValue | null): Date | null {
@@ -40,6 +40,19 @@ export async function submitInquiry(
   if (roomSlug && !getRoomBySlug(roomSlug)) errors.roomSlug = "找不到此房型";
 
   if (Object.keys(errors).length > 0) return { errors };
+
+  if (roomSlug && checkIn && checkOut) {
+    const conflicts = findActiveOverlap(roomSlug, checkIn, checkOut);
+    if (conflicts.length > 0) {
+      const earliest = conflicts.reduce((a, b) => (a.checkIn < b.checkIn ? a : b));
+      const fmt = (d: Date) => d.toISOString().slice(0, 10);
+      return {
+        errors: {
+          checkIn: `此房型在 ${fmt(earliest.checkIn)} ~ ${fmt(earliest.checkOut)} 已被預訂，請改其他日期或房型`,
+        },
+      };
+    }
+  }
 
   const inquiry = createInquiry({
     name,

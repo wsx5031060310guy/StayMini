@@ -46,6 +46,33 @@ export function listInquiries(): Inquiry[] {
   return [...inquiries].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 }
 
+/**
+ * Returns confirmed/contacted inquiries that overlap [checkIn, checkOut) for the given room.
+ * Used to surface double-booking warnings before creating a new inquiry. "new" inquiries
+ * are intentionally excluded — multiple unconfirmed leads for the same dates is fine and
+ * even desirable (host picks the best one).
+ */
+export function findActiveOverlap(
+  roomSlug: string | null | undefined,
+  checkIn: Date,
+  checkOut: Date
+): Inquiry[] {
+  if (!roomSlug) return [];
+  return inquiries.filter((i) => {
+    if (i.roomSlug !== roomSlug) return false;
+    if (i.status !== "confirmed" && i.status !== "contacted") return false;
+    // Overlap iff existing.checkIn < new.checkOut AND existing.checkOut > new.checkIn
+    return i.checkIn.getTime() < checkOut.getTime() && i.checkOut.getTime() > checkIn.getTime();
+  });
+}
+
+export function updateInquiryStatus(id: string, status: InquiryStatus): Inquiry | null {
+  const found = inquiries.find((i) => i.id === id);
+  if (!found) return null;
+  found.status = status;
+  return found;
+}
+
 export function createInquiry(input: InquiryInput): Inquiry {
   const inquiry: Inquiry = {
     id: makeId(),
