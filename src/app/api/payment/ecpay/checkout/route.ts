@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { buildCheckoutParams } from "@/lib/payment/ecpay";
 import { getPlan } from "@/lib/payment/pricing";
+import { createOrder, makeMerchantTradeNo } from "@/lib/payment/order-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,11 +18,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "invalid plan" }, { status: 400 });
   }
 
-  const merchantTradeNo = `STAY${Date.now()}${Math.floor(Math.random() * 1000)
-    .toString()
-    .padStart(3, "0")}`.slice(0, 20);
-
-  // TODO: persist Order(merchantTradeNo, plan, status=PENDING) once Order model is added.
+  const merchantTradeNo = makeMerchantTradeNo("STAY");
+  const customerEmail = typeof body.email === "string" ? body.email : null;
+  const bookingId = typeof body.bookingId === "string" ? body.bookingId : null;
+  createOrder({ merchantTradeNo, plan, provider: "ECPAY", bookingId, customerEmail });
 
   const base = siteUrl(req);
   const { endpoint, params } = buildCheckoutParams({
