@@ -1,0 +1,41 @@
+// StayMini — minimal B&B / minsu landing site + booking inquiry.
+// Phase 0: schema declared but not migrated. App reads/writes an in-memory store
+// in src/lib until Mike provisions Postgres (Neon) and runs `prisma migrate dev`.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Inquiry {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?
+  email     String?
+  checkIn   DateTime
+  checkOut  DateTime
+  guests    Int
+  roomSlug  String?
+  message   String?  @db.Text
+  status    String   @default("new") // new | contacted | confirmed | cancelled
+  createdAt DateTime @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Room {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  capacity      Int
+  pricePerNight Int
+  description   String?  @db.Text
+  amenities     String[]
+  imageUrl      String?
+  createdAt     DateTime @default(now())
+}
