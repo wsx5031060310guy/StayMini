@@ -9,7 +9,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "postinstall": "prisma generate || true",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "test:payment": "node scripts/test-ecpay-sig.mjs"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
