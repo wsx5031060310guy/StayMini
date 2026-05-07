@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { createInquiry, findActiveOverlap } from "@/lib/inquiries-store";
 import { getRoomBySlug } from "@/lib/rooms-store";
+import { notifyOwnerOfInquiry } from "@/lib/inquiry-notify";
 
 function parseDate(value: FormDataEntryValue | null): Date | null {
   if (typeof value !== "string" || value.trim() === "") return null;
@@ -75,6 +76,13 @@ export async function submitInquiry(
     guests: inquiry.guests,
     roomSlug: inquiry.roomSlug,
   });
+
+  // Best-effort owner notification — never block the form on Mailgun errors.
+  try {
+    await notifyOwnerOfInquiry(inquiry);
+  } catch (e) {
+    console.error("[StayMini] mailgun notify failed:", e);
+  }
 
   redirect(`/inquiry/thanks?id=${inquiry.id}`);
 }
