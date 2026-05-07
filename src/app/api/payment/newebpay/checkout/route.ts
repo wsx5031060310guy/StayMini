@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createCheckoutSession } from "@/lib/payment/stripe";
+import { buildCheckoutPayload } from "@/lib/payment/newebpay";
 import { getPlan } from "@/lib/payment/pricing";
 import { createOrder, makeMerchantTradeNo } from "@/lib/payment/order-store";
 
@@ -18,24 +18,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "invalid plan" }, { status: 400 });
   }
 
-  const base = siteUrl(req);
-  const merchantTradeNo = makeMerchantTradeNo("STAY");
+  const merchantOrderNo = makeMerchantTradeNo("STAY");
   const customerEmail = typeof body.email === "string" ? body.email : null;
   const bookingId = typeof body.bookingId === "string" ? body.bookingId : null;
-  createOrder({ merchantTradeNo, plan, provider: "STRIPE", bookingId, customerEmail });
+  createOrder({ merchantTradeNo: merchantOrderNo, plan, provider: "NEWEBPAY", bookingId, customerEmail });
 
-  try {
-    const session = await createCheckoutSession({
-      amountTwd: plan.amount,
-      itemName: plan.name,
-      merchantTradeNo,
-      customerEmail,
-      successUrl: `${base}/payment/success?session={CHECKOUT_SESSION_ID}`,
-      cancelUrl: `${base}/payment/cancelled`,
-    });
-    return NextResponse.json({ url: session.url, id: session.id, merchantTradeNo });
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : "stripe error";
-    return NextResponse.json({ error: msg }, { status: 500 });
-  }
+  const base = siteUrl(req);
+  const { endpoint, params } = buildCheckoutPayload({
+    merchantOrderNo,
+    amount: plan.amount,
+    itemDesc: plan.name,
+    email: customerEmail || "buyer@staymini.tw",
+    returnUrl: `${base}/api/payment/newebpay/return`,
+    notifyUrl: `${base}/api/payment/newebpay/notify`,
+    clientBackUrl: `${base}/payment/success?order=${merchantOrderNo}`,
+  });
+
+  return NextResponse.json({ endpoint, params, merchantOrderNo });
 }

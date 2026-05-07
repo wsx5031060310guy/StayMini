@@ -5,7 +5,7 @@
 import crypto from "node:crypto";
 import { calcCommission, type Plan } from "./pricing";
 
-export type OrderProvider = "ECPAY" | "STRIPE";
+export type OrderProvider = "NEWEBPAY";
 export type OrderStatus = "PENDING" | "PAID" | "FAILED" | "REFUNDED";
 export type BookingStatus =
   | "HELD"

@@ -9,8 +9,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "postinstall": "prisma generate || true",
-    "db:seed": "tsx prisma/seed.ts",
-    "test:payment": "node scripts/test-ecpay-sig.mjs"
+    "db:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
@@ -21,7 +20,6 @@
     "next": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "stripe": "^17.7.0",
     "tailwind-merge": "^2.5.5"
   },
   "devDependencies": {
