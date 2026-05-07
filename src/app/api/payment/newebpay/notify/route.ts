@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { decodeTradeInfo, getNewebpayConfig } from "@/lib/payment/newebpay";
-import { findByMerchantTradeNo, markFailed, markPaid } from "@/lib/payment/order-store";
+import {
+  findOrderByMerchantTradeNo as findByMerchantTradeNo,
+  markOrderFailed as markFailed,
+  markOrderPaid as markPaid,
+} from "@/lib/payment/order-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
