@@ -12,7 +12,7 @@ Phase 1 will turn this into a multi-tenant SaaS template.
 - **Tailwind CSS** + shadcn-ui style components (Button, Card, Input, Textarea, Select, Badge)
 - **Prisma** + Postgres (Neon-compatible) — schema only this phase, no real DB
 - **Server Actions** for the inquiry form
-- **Resend** scaffold ready (env var only, not wired up)
+- **Mailgun** scaffold ready (env var only, not wired up)
 - Mobile-first (sm:/md:/lg: progressive)
 - 繁體中文 UI · English code/comments
 
@@ -85,7 +85,7 @@ prisma/
 3. `npm run db:seed` 把 `rooms-store.ts` 的內容 seed 到 DB（或直接在 Prisma Studio 編輯）
 4. **Switch stores to Prisma**：把 `src/app/**/page.tsx` 中的 `listRooms()` / `getRoomBySlug()` / `createInquiry()` / `listInquiries()` 換成 `prisma.room.*` / `prisma.inquiry.*`
 5. **Add Auth.js (NextAuth)** 保護 `/admin/*` — 目前完全無驗證，公開可見
-6. **Wire Resend** for new-inquiry email notifications：在 Server Action 內呼叫 Resend SDK，寄到屋主 email
+6. **Wire Mailgun** for new-inquiry email notifications：在 Server Action 內呼叫 Mailgun API（HTTP `POST /v3/{domain}/messages`），寄到屋主 email。env 已預留：`MAILGUN_API_KEY` / `MAILGUN_DOMAIN` / `MAILGUN_FROM_EMAIL` / `MAILGUN_FROM_NAME` / `MAILGUN_REGION`。
 7. **Replace placeholders**：Google Maps embed URL、Hero 圖、`siteConfig.lineId`、所有民宿照片
 8. **Vercel deploy**：`vercel --prod`（Mike 手動執行，**不要**在 CI 自動部署）
 
