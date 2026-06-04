@@ -24,7 +24,7 @@ export default async function ThanksPage({
             屋主會於 24 小時內透過 LINE 或 Email 回覆是否仍有空房。
             <br />
             如有急事，請直接撥打{" "}
-            <a className="text-primary hover:underline" href={`tel:${siteConfig.phone}`}>
+            <a className="text-primary underline underline-offset-2" href={`tel:${siteConfig.phone}`}>
               {siteConfig.phone}
             </a>
             {" "}或加 LINE：<span className="font-medium">{siteConfig.lineId}</span>。

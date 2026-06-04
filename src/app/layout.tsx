@@ -60,11 +60,11 @@ function SiteFooter() {
     <footer className="border-t border-border/70 bg-muted/40">
       <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-8 sm:grid-cols-2 sm:px-6 md:grid-cols-3">
         <div>
-          <h3 className="font-semibold text-stone-ink">{siteConfig.name}</h3>
+          <h2 className="font-semibold text-stone-ink">{siteConfig.name}</h2>
           <p className="mt-2 text-sm text-muted-foreground">{siteConfig.tagline}</p>
         </div>
         <div className="text-sm">
-          <h4 className="font-medium text-stone-ink">聯絡屋主</h4>
+          <h3 className="font-medium text-stone-ink">聯絡屋主</h3>
           <ul className="mt-2 space-y-1 text-muted-foreground">
             <li>電話：{siteConfig.phone}</li>
             <li>LINE：{siteConfig.lineId}</li>
@@ -72,7 +72,7 @@ function SiteFooter() {
           </ul>
         </div>
         <div className="text-sm">
-          <h4 className="font-medium text-stone-ink">地址</h4>
+          <h3 className="font-medium text-stone-ink">地址</h3>
           <p className="mt-2 text-muted-foreground">{siteConfig.address}</p>
           <p className="mt-3 text-xs text-muted-foreground">
             © {new Date().getFullYear()} {siteConfig.name}. Powered by StayMini.
