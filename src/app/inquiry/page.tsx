@@ -22,7 +22,7 @@ export default async function InquiryPage({
         <p className="mt-2 text-sm text-muted-foreground sm:text-base">
           請填寫以下資訊，屋主會以 LINE 或 Email 回覆是否仍有空房。
           <br className="hidden sm:block" />
-          急件請直接撥打 <a className="text-primary hover:underline" href={`tel:${siteConfig.phone}`}>{siteConfig.phone}</a>
+          急件請直接撥打 <a className="text-primary underline underline-offset-2" href={`tel:${siteConfig.phone}`}>{siteConfig.phone}</a>
           {" "}或加 LINE：<span className="font-medium">{siteConfig.lineId}</span>。
         </p>
       </div>

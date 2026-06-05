@@ -49,7 +49,7 @@ export default function HomePage() {
           ].map((f) => (
             <Card key={f.title} className="bg-card/80">
               <CardContent className="pt-6">
-                <h3 className="font-semibold text-stone-ink">{f.title}</h3>
+                <h2 className="font-semibold text-stone-ink">{f.title}</h2>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.body}</p>
               </CardContent>
             </Card>
