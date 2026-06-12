@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { siteConfig } from "@/lib/site-config";
+import { COMPANY } from "@/lib/company";
 
 export const metadata = { title: "關於我們 · 山海間民宿" };
 
@@ -47,9 +48,9 @@ export default function AboutPage() {
           <CardContent className="pt-6">
             <h3 className="font-semibold">聯絡方式</h3>
             <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-              <li>電話：{siteConfig.phone}</li>
-              <li>LINE：{siteConfig.lineId}</li>
-              <li>Email：{siteConfig.email}</li>
+              <li>電話：{COMPANY.phone}</li>
+              <li>LINE：{COMPANY.lineId}</li>
+              <li>Email：{COMPANY.email}</li>
             </ul>
           </CardContent>
         </Card>

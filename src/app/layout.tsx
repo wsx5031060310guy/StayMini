@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { siteConfig } from "@/lib/site-config";
+import { COMPANY } from "@/lib/company";
 
 export const metadata: Metadata = {
   title: `${siteConfig.name} · 直接訂房，零 OTA 抽成`,
@@ -58,7 +59,7 @@ function SiteHeader() {
 function SiteFooter() {
   return (
     <footer className="border-t border-border/70 bg-muted/40">
-      <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-8 sm:grid-cols-2 sm:px-6 md:grid-cols-3">
+      <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-8 sm:grid-cols-2 sm:px-6 md:grid-cols-4">
         <div>
           <h2 className="font-semibold text-stone-ink">{siteConfig.name}</h2>
           <p className="mt-2 text-sm text-muted-foreground">{siteConfig.tagline}</p>
@@ -74,7 +75,37 @@ function SiteFooter() {
         <div className="text-sm">
           <h3 className="font-medium text-stone-ink">地址</h3>
           <p className="mt-2 text-muted-foreground">{siteConfig.address}</p>
-          <p className="mt-3 text-xs text-muted-foreground">
+        </div>
+        <div className="text-sm">
+          <h3 className="font-medium text-stone-ink">政策與條款</h3>
+          <ul className="mt-2 space-y-1 text-muted-foreground">
+            <li>
+              <Link href="/terms" className="hover:text-foreground transition-colors">
+                服務條款
+              </Link>
+            </li>
+            <li>
+              <Link href="/privacy" className="hover:text-foreground transition-colors">
+                隱私權政策
+              </Link>
+            </li>
+            <li>
+              <Link href="/refund" className="hover:text-foreground transition-colors">
+                取消與退訂政策
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="mx-auto w-full max-w-6xl px-4 pb-6 sm:px-6">
+        <div className="border-t border-border/50 pt-4 text-xs text-muted-foreground space-y-1">
+          <p>
+            營運公司：{COMPANY.name}｜統一編號：{COMPANY.taxId}｜地址：{COMPANY.address}
+          </p>
+          <p>
+            客服電話：{COMPANY.phone}｜客服 Email：{COMPANY.email}｜LINE：{COMPANY.lineId}
+          </p>
+          <p>
             © {new Date().getFullYear()} {siteConfig.name}. Powered by StayMini.
           </p>
         </div>
