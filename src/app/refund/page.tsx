@@ -73,7 +73,7 @@ export default function RefundPage() {
           <h2 className="text-xl font-semibold text-stone-ink">四、退款管道與時程</h2>
           <ul className="mt-3 list-disc space-y-2 pl-5">
             <li>
-              申請方式：請以 Email（{COMPANY.email}）或電話（{COMPANY.phone}）提出，
+              申請方式：請以 Email（{COMPANY.email}）提出，
               並提供訂房人姓名、訂單編號（或入住日期）以利核對。
             </li>
             <li>退款方式：依原付款管道原路退回；信用卡付款採退刷方式退還至原扣款卡片。</li>

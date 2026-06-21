@@ -48,7 +48,6 @@ export default function AboutPage() {
           <CardContent className="pt-6">
             <h3 className="font-semibold">聯絡方式</h3>
             <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-              <li>電話：{COMPANY.phone}</li>
               <li>LINE：{COMPANY.lineId}</li>
               <li>Email：{COMPANY.email}</li>
             </ul>

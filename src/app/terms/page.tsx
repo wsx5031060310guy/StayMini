@@ -25,7 +25,6 @@ export default function TermsPage() {
             <li>公司名稱：{COMPANY.name}</li>
             <li>統一編號：{COMPANY.taxId}</li>
             <li>登記地址：{COMPANY.address}</li>
-            <li>聯絡電話：{COMPANY.phone}</li>
             <li>客服 Email：{COMPANY.email}</li>
           </ul>
         </section>
@@ -106,7 +105,6 @@ export default function TermsPage() {
           <p className="mt-3">對本條款或訂房服務有任何疑問，歡迎透過下列方式聯絡客服：</p>
           <ul className="mt-3 space-y-1">
             <li>Email：{COMPANY.email}</li>
-            <li>電話：{COMPANY.phone}</li>
             <li>LINE：{COMPANY.lineId}</li>
           </ul>
         </section>

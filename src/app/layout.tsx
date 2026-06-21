@@ -103,7 +103,7 @@ function SiteFooter() {
             營運公司：{COMPANY.name}｜統一編號：{COMPANY.taxId}｜地址：{COMPANY.address}
           </p>
           <p>
-            客服電話：{COMPANY.phone}｜客服 Email：
+            客服 Email：
             <a href={`mailto:${COMPANY.email}`} className="hover:text-foreground transition-colors">
               {COMPANY.email}
             </a>

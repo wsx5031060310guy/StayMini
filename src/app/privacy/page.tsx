@@ -65,7 +65,7 @@ export default function PrivacyPage() {
             <li>請求刪除。</li>
           </ul>
           <p className="mt-3">
-            行使上述權利，請以 Email（{COMPANY.email}）或電話（{COMPANY.phone}）聯絡我們，
+            行使上述權利，請以 Email（{COMPANY.email}）聯絡我們，
             我們將於法定期限內處理。您得自由選擇是否提供個人資料；惟若不提供訂房所必要之資料，將無法完成訂房服務。
           </p>
         </section>

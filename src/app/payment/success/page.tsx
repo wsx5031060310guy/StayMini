@@ -46,7 +46,7 @@ export default async function PaymentSuccessPage({
                 {COMPANY.email}
               </a>
             )}
-            ）或電話（{COMPANY.phone}）聯繫客服。
+            ）聯繫客服。
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-2">
             <Button asChild>
