@@ -1,100 +1,80 @@
 # StayMini
 
-> 給台灣獨立民宿屋主的「最小可用」官網模板。
-> 擺脫 OTA 抽成，旅人直接透過詢問表單聯繫屋主。
+給台灣獨立民宿屋主的單民宿官網與訂房詢問模板。狀態：MVP / Phase 0；repo 無部署設定或上線紀錄，無法從程式碼判定已上線。
 
-Tier 5 of Mike Feng's micro-saas portfolio. Phase 0 ships a single-tenant demo;
-Phase 1 will turn this into a multi-tenant SaaS template.
+StayMini 使用 Next.js 15 App Router、React 19、TypeScript、Tailwind CSS。現有功能包含首頁與房型頁、訂房詢問 Server Action、Basic Auth 保護的屋主詢問列表、Mailgun 詢問通知、NewebPay 付款 API、Smart Router 民宿介紹文 API。Runtime 資料目前存在 in-memory store；Prisma/PostgreSQL schema 已建立但尚未接到頁面與 API。
 
-## Stack
+```mermaid
+graph TD
+  Readme["README.md"] --> Arch["docs/ARCHITECTURE.md"]
+  Readme --> Flows["docs/FLOWS.md"]
+  Readme --> Pages["docs/PAGES.md"]
+  Readme --> Ops["docs/OPERATIONS.md"]
+```
 
-- **Next.js 15** (App Router) + **TypeScript** + **React 19**
-- **Tailwind CSS** + shadcn-ui style components (Button, Card, Input, Textarea, Select, Badge)
-- **Prisma** + Postgres (Neon-compatible) — schema only this phase, no real DB
-- **Server Actions** for the inquiry form
-- **Mailgun** wired into `/inquiry` server action — sends owner an email on new inquiry (no-op if env vars unset)
-- Mobile-first (sm:/md:/lg: progressive)
-- 繁體中文 UI · English code/comments
+## 📚 專案文件
 
-## MVP scope (Phase 0)
+- [系統架構](docs/ARCHITECTURE.md)：技術棧、元件關係、主要目錄、Prisma 資料模型。
+- [操作與業務流程](docs/FLOWS.md)：房型瀏覽、詢問送出、admin、NewebPay、AI 文案流程。
+- [頁面/路由/API 清單](docs/PAGES.md)：所有頁面路由、API endpoints、Server Action 與重要模組。
+- [安裝、執行、部署、維運](docs/OPERATIONS.md)：環境需求、scripts、env、部署與上線前檢查。
 
-| Route | Purpose |
-| --- | --- |
-| `/` | Hero (大圖 + 民宿名 + tagline) + 「立即詢問」CTA + 三項房型預覽 |
-| `/rooms` | 三間 sample 房型卡片列表 |
-| `/rooms/[slug]` | 單一房型 detail：圖庫 placeholder、介紹、設備、CTA 帶房型 deep-link 至 `/inquiry?room=…` |
-| `/about` | 民宿故事、地址、聯絡、Google Maps placeholder |
-| `/inquiry` | 訂房請求表單（姓名 / 電話 / Email / 入住日 / 退房日 / 人數 / 房型 / 訊息）→ Server Action → 存入記憶體 store + `console.log` |
-| `/inquiry/thanks` | 送出後感謝頁，顯示詢問編號 |
-| `/admin/inquiries` | 屋主後台：詢問列表（**尚未加上身份驗證，正式上線前必加**） |
-
-## Quickstart
+## 快速開始
 
 ```bash
-cd StayMini
 npm install
-npm run dev          # http://localhost:3000
-npm run typecheck    # tsc --noEmit
+cp .env.example .env.local
+npm run dev
 ```
 
-無需資料庫即可啟動 — 詢問會存到 in-memory store（`src/lib/inquiries-store.ts`）並 `console.log` 在 dev server。
+本機預設網址：`http://localhost:3000`。
 
-## Project layout
+若要打開 `/admin/inquiries`，需在 `.env.local` 設定：
 
-```
-src/
-  app/
-    layout.tsx              # 共用 header / footer
-    page.tsx                # /
-    rooms/page.tsx          # /rooms
-    rooms/[slug]/page.tsx   # /rooms/:slug
-    about/page.tsx          # /about
-    inquiry/page.tsx        # /inquiry
-    inquiry/InquiryForm.tsx # client component
-    inquiry/actions.ts      # Server Action
-    inquiry/thanks/page.tsx # /inquiry/thanks
-    admin/inquiries/page.tsx
-    not-found.tsx
-    globals.css
-  components/ui/            # Button, Card, Input/Textarea/Select/Label, Badge
-  lib/
-    site-config.ts          # 民宿名稱 / tagline / 聯絡方式（一處改，全站套用）
-    rooms-store.ts          # 三間 sample 房型
-    inquiries-store.ts      # in-memory 詢問 store
-    prisma.ts               # 為 Phase 1 預留的 Prisma client singleton
-    utils.ts                # cn / formatDate / formatTwd / nightsBetween
-prisma/
-  schema.prisma             # Inquiry + Room 模型
-  seed.ts                   # 三間房型 seed（Phase 1 才執行）
+```bash
+ADMIN_USER=your-admin-user
+ADMIN_PASSWORD=your-admin-password
 ```
 
-## Customize for a real minsu
+## 常用指令
 
-最小客製：改 `src/lib/site-config.ts`（民宿名、tagline、聯絡方式、地址、Maps 嵌入網址、Hero 圖）
-與 `src/lib/rooms-store.ts`（房型）。
+| 指令 | 用途 |
+| --- | --- |
+| `npm run dev` | 啟動 Next.js 開發伺服器 |
+| `npm run build` | 建立 production build |
+| `npm run start` | 啟動 production server |
+| `npm run typecheck` | 執行 `tsc --noEmit` |
+| `npm run lint` | 執行 `next lint` script |
+| `npm run db:seed` | 執行 `tsx prisma/seed.ts`，將 sample rooms 寫入 Prisma DB |
 
-進階客製：
-- Hero 背景：把 `siteConfig.heroImageUrl` 換成 `/public` 內的本地圖片
-- Tailwind 配色：`tailwind.config.ts` 內 amber/stone palette 可調
-- 換掉所有 `picsum.photos` placeholder URL 為真實照片
+## 主要功能
 
-## Next steps for Mike (before deploying)
+- `/`：首頁 hero、特色區、三間房型預覽。
+- `/rooms`、`/rooms/[slug]`：房型列表與詳情。
+- `/inquiry`：訂房詢問表單，送出後寫入 in-memory inquiry store。
+- `/admin/inquiries`：屋主後台詢問列表，由 `ADMIN_USER` / `ADMIN_PASSWORD` Basic Auth 保護。
+- `/api/payment/newebpay/*`：NewebPay checkout、return、notify API。
+- `/api/listing-blurb`：透過 Smart Router 產生民宿介紹文。
+- `/terms`、`/privacy`、`/refund`：服務條款、隱私權政策、退訂政策。
 
-1. **Provision Postgres** (Neon / Supabase) → 把連線字串填入 `.env`
-2. `npx prisma migrate dev --name init` 建表
-3. `npm run db:seed` 把 `rooms-store.ts` 的內容 seed 到 DB（或直接在 Prisma Studio 編輯）
-4. **Switch stores to Prisma**：把 `src/app/**/page.tsx` 中的 `listRooms()` / `getRoomBySlug()` / `createInquiry()` / `listInquiries()` 換成 `prisma.room.*` / `prisma.inquiry.*`
-5. **Add Auth.js (NextAuth)** 保護 `/admin/*` — 目前完全無驗證，公開可見
-6. ✅ **Mailgun wired** — `/inquiry` Server Action 會呼叫 Mailgun HTTP API (`POST /v3/{domain}/messages`)，寄到 `siteConfig.email`。env：`MAILGUN_API_KEY` / `MAILGUN_DOMAIN` / `MAILGUN_FROM_EMAIL` / `MAILGUN_FROM_NAME` / `MAILGUN_REGION`（EU 客戶設 `api.eu.mailgun.net`）。env 沒設時會靜默 skip（不擋表單）。
-7. **Replace placeholders**：Google Maps embed URL、Hero 圖、`siteConfig.lineId`、所有民宿照片
-8. **Vercel deploy**：`vercel --prod`（Mike 手動執行，**不要**在 CI 自動部署）
+## 客製入口
 
-## Non-goals (intentionally not built)
+| 檔案 | 用途 |
+| --- | --- |
+| `src/lib/site-config.ts` | 民宿名稱、tagline、屋主聯絡方式、地址、地圖、hero 圖 |
+| `src/lib/company.ts` | 公司名稱、統編、登記地址、客服 Email、LINE |
+| `src/lib/rooms-store.ts` | 三間 sample 房型資料 |
+| `tailwind.config.ts` | 字體、色彩、border radius |
+| `prisma/schema.prisma` | PostgreSQL schema 預留 |
+| `prisma/seed.ts` | 房型 seed |
 
-- 線上付款 / 訂金（屋主希望先電話 / LINE 確認再走匯款）
-- 房況日曆（避免 over-engineering，屋主自己用 Google Calendar 管理）
-- 多語系（先 zh-TW only，i18n 在 Phase 1 才做）
-- 多 tenant（Phase 1 才做，目前是單民宿模板）
+## 重要限制
+
+- 詢問、訂單、booking 目前存在 in-memory store；server 重啟或 serverless instance 更換會遺失。
+- Prisma schema 已存在，但 runtime 尚未使用 `prisma.inquiry.*`、`prisma.room.*`、`prisma.order.*`。
+- Runtime `OrderProvider` 使用 `NEWEBPAY`，Prisma schema 目前 enum 是 `ECPAY` / `STRIPE`；切換 DB 前需對齊。
+- `siteConfig`、`COMPANY`、圖片、Google Maps iframe 仍含 demo / placeholder 資料。
+- repo 無 Docker、compose、Makefile、`vercel.json`；部署採標準 Next.js build/start 或 Vercel 專案設定。
 
 ## License
 
