@@ -99,9 +99,8 @@ function SiteFooter() {
       </div>
       <div className="mx-auto w-full max-w-6xl px-4 pb-6 sm:px-6">
         <div className="border-t border-border/50 pt-4 text-xs text-muted-foreground space-y-1">
-          <p>
-            營運公司：{COMPANY.name}｜統一編號：{COMPANY.taxId}｜地址：{COMPANY.address}
-          </p>
+          <p>{`營運主體：${COMPANY.name}｜統一編號 ${COMPANY.taxId}｜客服信箱 ${COMPANY.email}`}</p>
+          <p>地址：{COMPANY.address}</p>
           <p>
             客服 Email：
             <a href={`mailto:${COMPANY.email}`} className="hover:text-foreground transition-colors">
