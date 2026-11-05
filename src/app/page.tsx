@@ -140,7 +140,7 @@ export default function HomePage() {
       <section className="stay-trust" aria-labelledby="stay-trust-title">
         <div>
           <h2 id="stay-trust-title">這是一個可操作的方案示範</h2>
-          <p>山海間民宿是示範站，不是真實營業的民宿。</p>
+          <p>山海間民宿是示範站，不是真實營業的民宿，照片為 AI 生成示意。</p>
         </div>
         <dl>
           <div>
