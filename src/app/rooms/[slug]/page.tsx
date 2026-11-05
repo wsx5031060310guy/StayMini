@@ -71,7 +71,7 @@ export default async function RoomDetailPage({ params }: { params: Promise<Param
               <Link href={`/inquiry?room=${room.slug}`}>詢問此房型</Link>
             </Button>
             <p className="mt-3 text-xs text-muted-foreground">
-              我們會在收到詢問後 24 小時內以 LINE 或 Email 回覆。
+              送出詢問後，屋主將以 LINE 或 Email 回覆房況。
             </p>
           </CardContent>
         </Card>

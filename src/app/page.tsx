@@ -1,106 +1,171 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { siteConfig } from "@/lib/site-config";
-import { listRooms } from "@/lib/rooms-store";
-import { formatTwd } from "@/lib/utils";
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { HomeTour } from '@/components/HomeTour';
+import { listRooms } from '@/lib/rooms-store';
+import { formatTwd } from '@/lib/utils';
+
+export const metadata: Metadata = {
+  title: '民宿自有官網示範｜山海間民宿',
+  description: '房型、設施與訂房詢問都放在自己的官網，旅客直接聯絡屋主。',
+};
+
+const roomImages: Record<string, string> = {
+  'mountain-double': '/product/room-mountain.jpg',
+  'ocean-quad': '/product/room-ocean.jpg',
+  'family-suite': '/product/room-family.jpg',
+};
 
 export default function HomePage() {
   const rooms = listRooms();
 
   return (
-    <div>
-      <section className="relative isolate overflow-hidden">
-        <div
-          className="absolute inset-0 -z-10 bg-cover bg-center"
-          style={{ backgroundImage: `url(${siteConfig.heroImageUrl})` }}
-          aria-hidden
-        />
-        <div className="absolute inset-0 -z-10 bg-stone-ink/55" aria-hidden />
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-5 px-4 py-20 text-white sm:px-6 sm:py-28 md:py-36">
-          <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur">
-            擺脫 OTA 抽成 · 直接與屋主聯繫
-          </span>
-          <h1 className="max-w-3xl text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">
-            {siteConfig.name}
-            <span className="block text-base font-normal text-white/85 mt-3 sm:text-lg">
-              {siteConfig.tagline}
-            </span>
+    <div className="stay-home">
+      <section className="stay-hero" aria-labelledby="stay-hero-title">
+        <div className="stay-hero-copy">
+          <h1 id="stay-hero-title">
+            <span className="stay-nowrap">民宿自有官網，</span>
+            <span className="stay-nowrap">訂房直接找屋主</span>
           </h1>
-          <p className="max-w-2xl text-sm text-white/85 sm:text-base">{siteConfig.heroSubtitle}</p>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild size="lg">
-              <Link href="/inquiry">立即詢問訂房</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 hover:text-white">
-              <Link href="/rooms">看房型</Link>
-            </Button>
+          <p>
+            這是一個示範民宿網站。旅客可以直接看房型、查設施，再送出訂房詢問。
+          </p>
+          <div className="stay-hero-actions">
+            <a className="stay-button stay-button-primary" href="#demo-rooms">
+              瀏覽示範房型
+            </a>
+            <Link className="stay-button stay-button-secondary" href="/inquiry">
+              試用詢問表單
+            </Link>
+          </div>
+        </div>
+        <div className="stay-product-frame" aria-label="民宿自有官網房型頁實際畫面">
+          <div className="stay-product-caption">
+            <strong>山海間民宿</strong>
+            <span className="stay-demo-label">示範資料</span>
+          </div>
+          <div className="stay-product-screen">
+            <Image
+              src="/product/staymini-rooms.webp"
+              alt="山海間民宿房型列表實際畫面"
+              fill
+              priority
+              sizes="(max-width: 800px) 94vw, 52vw"
+            />
           </div>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-          {[
-            { title: "零 OTA 抽成", body: "省下 15–20% 中介費，價格回到旅人與屋主之間。" },
-            { title: "LINE 直連屋主", body: "詢問後屋主以 LINE / 電話直接回覆，溝通最快。" },
-            { title: "手機優先設計", body: "行動裝置體驗為主，瀏覽、詢問都能單手完成。" },
-            { title: "在地屋主經營", body: "屋主即客服，房況、推薦景點都能直接問。" },
-          ].map((f) => (
-            <Card key={f.title} className="bg-card/80">
-              <CardContent className="pt-6">
-                <h2 className="font-semibold text-stone-ink">{f.title}</h2>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.body}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6">
-        <div className="mb-6 flex items-end justify-between">
+      <section id="demo-rooms" className="stay-room-section" aria-labelledby="stay-rooms-title">
+        <div className="stay-section-heading stay-room-heading">
           <div>
-            <h2 className="text-2xl font-semibold sm:text-3xl">三間房型，三種視角</h2>
-            <p className="mt-2 text-sm text-muted-foreground">每間房都附獨立衛浴與免費 Wi-Fi。</p>
+            <h2 id="stay-rooms-title">旅客先看到房型，再決定要不要問</h2>
+            <p>示範房型資料，點開可查看完整房型頁。</p>
           </div>
-          <Link href="/rooms" className="hidden text-sm text-primary hover:underline sm:inline">
-            看全部房型 →
-          </Link>
+          <Link href="/rooms">查看全部房型</Link>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
+        <div className="stay-room-rail" tabIndex={0} aria-label="示範房型，可水平捲動">
           {rooms.map((room) => (
-            <Link key={room.id} href={`/rooms/${room.slug}`} className="group block">
-              <Card className="overflow-hidden transition-shadow group-hover:shadow-md">
-                <div
-                  className="aspect-[4/3] w-full bg-cover bg-center"
-                  style={{ backgroundImage: `url(${room.imageUrl})` }}
-                  aria-hidden
+            <Link key={room.id} href={`/rooms/${room.slug}`} className="stay-room-card">
+              <div className="stay-room-photo">
+                <Image
+                  src={roomImages[room.slug]}
+                  alt={`${room.name}示範照片`}
+                  fill
+                  sizes="(max-width: 800px) 82vw, 31vw"
                 />
-                <CardContent className="pt-5">
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-lg font-semibold">{room.name}</h3>
-                    <span className="text-sm text-muted-foreground">{room.capacity} 人</span>
-                  </div>
-                  <p className="mt-1 text-sm text-primary font-medium">
-                    {formatTwd(room.pricePerNight)} <span className="text-muted-foreground font-normal">/ 晚</span>
-                  </p>
-                </CardContent>
-              </Card>
+                <span className="stay-demo-label">示範房型</span>
+              </div>
+              <div className="stay-room-meta">
+                <div>
+                  <h3>{room.name}</h3>
+                  <span>{room.capacity} 人入住</span>
+                </div>
+                <p>{formatTwd(room.pricePerNight)} <span>/ 晚</span></p>
+              </div>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="border-t border-border/70 bg-muted/30">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-4 px-4 py-12 sm:px-6 sm:py-16 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h2 className="text-2xl font-semibold sm:text-3xl">準備好來度假了嗎？</h2>
-            <p className="mt-2 text-sm text-muted-foreground">填一份簡單的詢問單，屋主會於 24 小時內回覆。</p>
-          </div>
-          <Button asChild size="lg">
-            <Link href="/inquiry">填寫訂房請求</Link>
-          </Button>
+      <section className="stay-section" aria-labelledby="stay-system-title">
+        <div className="stay-section-heading">
+          <h2 id="stay-system-title">一個官網，完成從看房到詢問</h2>
+          <p>房型、內容與詢問流程用同一套視覺呈現，旅客不必在多個頁面猜下一步。</p>
         </div>
+        <div className="stay-bento">
+          <article className="stay-bento-card stay-bento-wide">
+            <div className="stay-bento-copy">
+              <span>房型內容</span>
+              <h3>大照片先建立期待</h3>
+              <p>房型頁並列照片、價格與入住人數，旅客先看懂再詢問。</p>
+            </div>
+            <div className="stay-bento-screen stay-bento-screen-room">
+              <span className="stay-demo-label">示範資料</span>
+              <Image src="/product/staymini-room.webp" alt="海景四人房房型頁實際畫面" fill sizes="(max-width: 800px) 100vw, 58vw" />
+            </div>
+          </article>
+          <article className="stay-bento-card stay-bento-form">
+            <div className="stay-bento-copy">
+              <span>詢問流程</span>
+              <h3>入住需求一次填完整</h3>
+              <p>日期、人數與房型偏好集中在一份詢問單。</p>
+            </div>
+            <div className="stay-bento-screen stay-bento-screen-form">
+              <Image src="/product/staymini-inquiry.webp" alt="訂房詢問表單實際畫面" fill sizes="(max-width: 800px) 100vw, 36vw" />
+            </div>
+          </article>
+          <article className="stay-bento-card stay-bento-mobile">
+            <div className="stay-bento-copy">
+              <span>自有版面</span>
+              <h3>品牌、照片與內容由民宿自己安排</h3>
+              <p>不用把重要房型資訊塞進平台固定格式。</p>
+            </div>
+            <div className="stay-bento-photo">
+              <Image src="/product/room-ocean.jpg" alt="海景四人房示範照片" fill sizes="(max-width: 800px) 100vw, 36vw" />
+              <span className="stay-demo-label">示範照片</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="stay-section stay-flow" aria-labelledby="stay-flow-title">
+        <div className="stay-section-heading">
+          <h2 id="stay-flow-title">旅客三步驟完成詢問</h2>
+          <p>點選步驟，查看對應的實際頁面。</p>
+        </div>
+        <HomeTour />
+      </section>
+
+      <section className="stay-trust" aria-labelledby="stay-trust-title">
+        <div>
+          <h2 id="stay-trust-title">這是一個可操作的方案示範</h2>
+          <p>山海間民宿是示範站，不是真實營業的民宿。</p>
+        </div>
+        <dl>
+          <div>
+            <dt>資料身分</dt>
+            <dd>照片、房價、地址與聯絡資訊皆為示範資料</dd>
+          </div>
+          <div>
+            <dt>可操作頁面</dt>
+            <dd>房型列表、房型詳情與訂房詢問表單</dd>
+          </div>
+          <div>
+            <dt>詢問表單</dt>
+            <dd>用於確認房況，不在送出時收取費用</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section className="stay-cta" aria-labelledby="stay-cta-title">
+        <div>
+          <h2 id="stay-cta-title">從房型頁開始體驗</h2>
+          <p>先看示範房型，再試著送出一份不收費的訂房詢問。</p>
+        </div>
+        <Link className="stay-button stay-button-primary" href="/rooms">
+          查看示範房型
+        </Link>
       </section>
     </div>
   );
