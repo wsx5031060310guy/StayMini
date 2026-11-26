@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
     "postinstall": "prisma generate || true",
     "db:seed": "tsx prisma/seed.ts"
   },
